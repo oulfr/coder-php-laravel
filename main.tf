@@ -87,11 +87,11 @@ resource "coder_agent" "main" {
   dir            = "/var/www/html"
 
   env = {
-    GIT_AUTHOR_NAME     = data.coder_workspace.me.owner
-    GIT_AUTHOR_EMAIL    = data.coder_workspace.me.owner_email
-    GIT_COMMITTER_NAME  = data.coder_workspace.me.owner
-    GIT_COMMITTER_EMAIL = data.coder_workspace.me.owner_email
-    GITHUB_TOKEN        = data.coder_external_auth.github.access_token
+    GIT_AUTHOR_NAME     = "coder"
+    GIT_AUTHOR_EMAIL    = "coder@test.com"
+    GIT_COMMITTER_NAME  = "coder"
+    GIT_COMMITTER_EMAIL = "coder@test.com"
+    GITHUB_TOKEN        = ""
   }
 
   metadata {
@@ -231,7 +231,7 @@ resource "docker_container" "workspace" {
   image = docker_image.main.name
 
   # Uses lower() to avoid Docker restriction on container names.
-  name = "coder-${data.coder_workspace.me.owner}-${lower(data.coder_workspace.me.name)}"
+  name = "coder-coder"
 
   # Hostname makes the shell more user friendly: coder@my-workspace:~$
   hostname = data.coder_workspace.me.name
@@ -286,11 +286,11 @@ resource "docker_container" "workspace" {
 
   labels {
     label = "coder.owner"
-    value = data.coder_workspace.me.owner
+    value = "coder"
   }
   labels {
     label = "coder.owner_id"
-    value = data.coder_workspace.me.owner_id
+    value = "1"
   }
   labels {
     label = "coder.workspace_id"
